@@ -2,9 +2,37 @@ import React, { useState } from 'react';
 import { Sidebar } from './components/Sidebar';
 import { TimelineCalendar } from './components/TimelineCalendar';
 import { SqlSchema } from './components/SqlSchema';
+import { HomePage } from './pages/HomePage';
+import { Navbar } from './components/Navbar';
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState('calendar');
+  const [activeTab, setActiveTab] = useState('storefront');
+
+  // If storefront is active, show the full-screen page without sidebar
+  if (activeTab === 'storefront') {
+    return (
+      <div className="relative w-full min-h-screen bg-zinc-50">
+        {/* Navbar fijo en la parte superior */}
+        <Navbar />
+
+        {/* Floating button to go back to admin */}
+        <button 
+          onClick={() => setActiveTab('calendar')}
+          className="fixed bottom-6 right-6 z-[60] bg-black/80 hover:bg-black text-white backdrop-blur-md px-5 py-3 rounded-full text-xs font-bold tracking-wider uppercase transition-all hover:scale-105 border border-white/20 shadow-xl"
+        >
+          ← Admin Panel
+        </button>
+
+        {/* 
+          Simulación del app/layout.tsx de Next.js
+          El pt-20 (padding-top: 5rem) asegura que el contenido no quede oculto bajo el Navbar
+        */}
+        <main className="pt-20">
+          <HomePage />
+        </main>
+      </div>
+    );
+  }
 
   return (
     <div className="flex h-screen bg-zinc-50 font-sans text-zinc-900 overflow-hidden">
