@@ -115,7 +115,7 @@ function parseICal(data: string): ICalEvent[] {
 }
 
 function getDatesBetween(startDate: Date, endDate: Date): Date[] {
-  const dates = [];
+  const dates: Date[] = [];
   let currentDate = new Date(startDate);
   // Do not include checkout date as a blocked night
   while (currentDate < endDate) {

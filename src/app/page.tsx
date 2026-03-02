@@ -1,9 +1,12 @@
+'use client';
+
 import React from 'react';
 import { BookingSearch } from '../components/BookingSearch';
+import Link from 'next/link';
 
-export const HomePage = () => {
+export default function HomePage() {
   return (
-    <div className="relative min-h-screen w-full flex flex-col justify-center items-center overflow-hidden bg-zinc-900">
+    <div className="relative min-h-[calc(100vh-80px)] w-full flex flex-col justify-center items-center overflow-hidden bg-zinc-900">
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <img
@@ -17,7 +20,7 @@ export const HomePage = () => {
       </div>
 
       {/* Hero Content */}
-      <div className="relative z-10 flex flex-col items-center justify-center w-full px-6 md:px-12 lg:px-24 mt-[-10vh]">
+      <div className="relative z-10 flex flex-col items-center justify-center w-full px-6 md:px-12 lg:px-24 mt-[-5vh]">
         <div className="text-center max-w-4xl mx-auto mb-12">
           {/* Subheadline */}
           <span className="inline-block py-1 px-3 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-xs font-semibold tracking-widest uppercase mb-6">
@@ -43,11 +46,19 @@ export const HomePage = () => {
         </div>
       </div>
 
-      {/* Scroll Indicator (Optional detail for premium feel) */}
+      {/* Scroll Indicator */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 opacity-70 animate-bounce">
         <span className="text-white text-xs tracking-widest uppercase font-medium">Explorar</span>
         <div className="w-[1px] h-12 bg-gradient-to-b from-white to-transparent"></div>
       </div>
+      
+      {/* Link to Admin */}
+      <Link 
+        href="/admin"
+        className="absolute bottom-6 right-6 z-[60] bg-black/80 hover:bg-black text-white backdrop-blur-md px-5 py-3 rounded-full text-xs font-bold tracking-wider uppercase transition-all hover:scale-105 border border-white/20 shadow-xl"
+      >
+        Admin Panel →
+      </Link>
     </div>
   );
-};
+}

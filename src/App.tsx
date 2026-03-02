@@ -1,12 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Sidebar } from './components/Sidebar';
 import { TimelineCalendar } from './components/TimelineCalendar';
 import { SqlSchema } from './components/SqlSchema';
 import { HomePage } from './pages/HomePage';
 import { Navbar } from './components/Navbar';
+import { SearchPage } from './pages/SearchPage';
+import { BookPage } from './pages/BookPage';
+import { AdminDashboard } from './pages/AdminDashboard';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('storefront');
+  const [isSearchRoute, setIsSearchRoute] = useState(false);
+  const [isBookRoute, setIsBookRoute] = useState(false);
+
+  // Simular enrutamiento básico para la previsualización
+  useEffect(() => {
+    const searchParams = new URLSearchParams(window.location.search);
+    if (searchParams.get('tab') === 'book') {
+      setIsBookRoute(true);
+      setActiveTab('storefront');
+    } else if (searchParams.get('checkIn') || searchParams.get('tab') === 'search') {
+      setIsSearchRoute(true);
+      setActiveTab('storefront'); // Asegurar que estamos en el modo cliente
+    }
+  }, []);
 
   // If storefront is active, show the full-screen page without sidebar
   if (activeTab === 'storefront') {
@@ -17,7 +34,12 @@ export default function App() {
 
         {/* Floating button to go back to admin */}
         <button 
-          onClick={() => setActiveTab('calendar')}
+          onClick={() => {
+            setIsSearchRoute(false);
+            setIsBookRoute(false);
+            setActiveTab('calendar');
+            window.history.pushState({}, '', '/');
+          }}
           className="fixed bottom-6 right-6 z-[60] bg-black/80 hover:bg-black text-white backdrop-blur-md px-5 py-3 rounded-full text-xs font-bold tracking-wider uppercase transition-all hover:scale-105 border border-white/20 shadow-xl"
         >
           ← Admin Panel
@@ -28,7 +50,7 @@ export default function App() {
           El pt-20 (padding-top: 5rem) asegura que el contenido no quede oculto bajo el Navbar
         */}
         <main className="pt-20">
-          <HomePage />
+          {isBookRoute ? <BookPage /> : isSearchRoute ? <SearchPage /> : <HomePage />}
         </main>
       </div>
     );
@@ -61,22 +83,7 @@ export default function App() {
             )}
             
             {activeTab === 'dashboard' && (
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <div className="bg-white p-6 rounded-2xl shadow-sm border border-zinc-200">
-                  <h2 className="text-lg font-medium text-zinc-900 mb-4">Quick Stats</h2>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="p-4 bg-zinc-50 rounded-xl border border-zinc-100">
-                      <p className="text-sm text-zinc-500 font-medium">Occupancy Rate</p>
-                      <p className="text-3xl font-semibold text-zinc-900 mt-1">84%</p>
-                    </div>
-                    <div className="p-4 bg-zinc-50 rounded-xl border border-zinc-100">
-                      <p className="text-sm text-zinc-500 font-medium">Available Units</p>
-                      <p className="text-3xl font-semibold text-zinc-900 mt-1">16</p>
-                    </div>
-                  </div>
-                </div>
-                <SqlSchema />
-              </div>
+              <AdminDashboard />
             )}
 
             {activeTab !== 'calendar' && activeTab !== 'dashboard' && (

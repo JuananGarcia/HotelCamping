@@ -1,15 +1,18 @@
+'use client';
+
 import React, { useState } from 'react';
 import { Calendar, Users, Search } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 export const BookingSearch = () => {
   const [checkIn, setCheckIn] = useState('');
   const [checkOut, setCheckOut] = useState('');
   const [guests, setGuests] = useState('2');
+  const router = useRouter();
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Searching for:', { checkIn, checkOut, guests });
-    // Aquí iría la lógica para redirigir a la página de resultados
+    router.push(`/search?checkIn=${checkIn}&checkOut=${checkOut}&guests=${guests}`);
   };
 
   return (

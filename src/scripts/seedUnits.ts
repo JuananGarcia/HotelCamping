@@ -1,5 +1,12 @@
 import { supabase } from '../lib/supabase';
 
+interface UnitInsert {
+  name: string;
+  type: string;
+  status: string;
+  base_price: number;
+}
+
 /**
  * Script para insertar 100 unidades de prueba en la base de datos.
  * Genera 40 cabañas y 60 parcelas/caravanas con precios base realistas.
@@ -18,7 +25,7 @@ export async function seedUnits() {
       return { success: false, message: 'La base de datos ya contiene unidades.' };
     }
 
-    const unitsToInsert = [];
+    const unitsToInsert: UnitInsert[] = [];
 
     // 2. Generar 40 Cabañas (Cabins)
     for (let i = 1; i <= 40; i++) {

@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { Calendar, LayoutDashboard, Settings, Users, CreditCard, Menu } from 'lucide-react';
 import { cn } from '../utils/cn';

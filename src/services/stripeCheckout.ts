@@ -108,7 +108,7 @@ export async function handleStripeWebhook(event: Stripe.Event, supabase: any) {
 }
 
 function getDatesBetween(startDate: Date, endDate: Date): Date[] {
-  const dates = [];
+  const dates: Date[] = [];
   let currentDate = new Date(startDate);
   while (currentDate < endDate) {
     dates.push(new Date(currentDate));

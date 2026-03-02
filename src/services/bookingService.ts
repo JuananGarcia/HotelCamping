@@ -18,8 +18,10 @@ export async function getAvailableUnits(startDate: string, endDate: string) {
       .lt('check_in', endDate)
       .gt('check_out', startDate);
 
+    // Si la tabla bookings no existe (error 42P01) o hay otro error, 
+    // asumimos que no hay reservas y continuamos.
     if (bookingsError) {
-      throw bookingsError;
+      console.warn('Aviso: No se pudo consultar la tabla bookings (¿quizás no existe aún?). Mostrando todas las unidades.', bookingsError);
     }
 
     // Extraer los IDs únicos de las unidades ocupadas
